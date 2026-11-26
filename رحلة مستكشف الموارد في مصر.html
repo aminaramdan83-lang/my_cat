@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>رحلة مستكشف الموارد في مصر</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--sky1:#8fdde0;--sky2:#fdebb9;--panel:#fffaf0;--ink:#4a2f12;--mut:#8a6a3c;--y:#e8a900;--ok:#2f9e5a;--no:#d64545;--line:#ecd9ad;--dune:#e6bf73;--pyr:#d49a3a;--pyr2:#b57d24;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--sky1:#0f1b3d;--sky2:#3a2f4f;--panel:#2f2a22;--ink:#fdf1d8;--mut:#d9c49a;--line:#5f5030;--dune:#5a4527;--pyr:#7a5a2a;--pyr2:#5a4120}}
+:root[data-theme="dark"]{--sky1:#0f1b3d;--sky2:#3a2f4f;--panel:#2f2a22;--ink:#fdf1d8;--mut:#d9c49a;--line:#5f5030;--dune:#5a4527;--pyr:#7a5a2a;--pyr2:#5a4120}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,Tahoma,sans-serif;background:linear-gradient(var(--sky1),var(--sky2)) fixed;color:var(--ink);min-height:100vh}
+main{max-width:720px;margin:auto;padding:12px}
+#top{display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.28);color:#fff;border-radius:20px;padding:8px 16px;font-weight:900;margin-bottom:12px}
+.panel{background:var(--panel);border-radius:28px;padding:18px;text-align:center;margin-bottom:14px;box-shadow:0 8px 0 rgba(0,0,0,.18)}
+h1,h2,h3{margin:6px 0}h1{font-size:28px}p{margin:6px 0;color:var(--mut);font-weight:700}
+.btn{font-family:inherit;font-weight:900;font-size:18px;border:0;border-bottom:6px solid #d99a00;border-radius:18px;padding:12px 26px;background:var(--y);color:#3a2a00;cursor:pointer}
+.btn:active{transform:translateY(4px);border-bottom-width:2px}
+.btn.g{background:var(--line);border-bottom-color:#b3a6e6;color:var(--ink)}
+input{font-family:inherit;font-size:20px;font-weight:900;text-align:center;width:100%;max-width:340px;padding:12px;border-radius:18px;border:4px solid var(--line);background:var(--panel);color:var(--ink);margin:10px 0}
+.hide{display:none}svg{max-width:100%}
+.path{display:flex;flex-direction:column;align-items:center;gap:6px;padding-bottom:20px}
+.lv{position:relative;text-align:center;transform:translateX(var(--x));padding-top:34px;width:190px}
+.lv::before{content:"";position:absolute;top:0;left:50%;height:34px;border-left:8px dotted rgba(255,255,255,.7)}
+.lv:first-child::before{display:none}
+.orb{width:128px;height:128px;border-radius:50%;border:6px solid #fff;border-bottom-width:12px;background:var(--y);padding:8px;cursor:pointer;animation:pop 1.6s infinite}
+.lv.done .orb{background:var(--ok);animation:none}
+.lv.lock .orb{background:#8d86a8;filter:grayscale(1);animation:none;opacity:.8}
+.lab{background:rgba(0,0,0,.3);color:#fff;border-radius:14px;padding:4px 10px;font-weight:900;margin-top:6px;font-size:14px}
+.st{font-size:26px;letter-spacing:3px}
+.lock .st::after{content:"🔒"}
+.bar{height:16px;background:var(--line);border-radius:9px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#ffd23f,#ff8a3d);width:0;transition:width .3s}
+.opts{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+.opt{display:flex;align-items:center;gap:12px;text-align:right;font-family:inherit;font-weight:900;font-size:18px;padding:16px;border-radius:20px;border:0;border-bottom:7px solid rgba(0,0,0,.28);color:#fff;cursor:pointer}
+.opt:nth-child(1){background:#ff6b6b}.opt:nth-child(2){background:#3d9bf0}.opt:nth-child(3){background:#34b765}.opt:nth-child(4){background:#f59f3b}
+.opt:active{transform:translateY(4px);border-bottom-width:3px}
+.opt.ok{background:var(--ok)!important;outline:5px solid #fff}.opt.no{background:#6b6290!important;opacity:.6}
+.fb{border-radius:18px;padding:10px;font-weight:900;margin-top:12px;background:var(--line);color:var(--ink)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.shake{animation:shake .4s}.fl{position:fixed;font-size:34px;font-weight:900;color:#ffd23f;text-shadow:0 2px 0 #3a2a00;animation:up 1s forwards;pointer-events:none}
+#fx span{position:fixed;top:-40px;font-size:28px;animation:fall 2.5s linear forwards;pointer-events:none}
+@keyframes pop{50%{transform:scale(1.08)}}
+@keyframes shake{25%{transform:translateX(-12px)}75%{transform:translateX(12px)}}
+@keyframes up{to{transform:translateY(-90px);opacity:0}}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+table{width:100%;border-collapse:collapse;font-weight:800}td{padding:8px;border-bottom:2px solid var(--line)}
+@media print{.np{display:none}}
+main{position:relative;z-index:1}
+#bg{position:fixed;left:0;bottom:0;width:100%;height:34vh;z-index:0;pointer-events:none}
+.panel{background:repeating-linear-gradient(90deg,#e8a900 0 16px,#1fa2a6 16px 32px) top/100% 8px no-repeat,var(--panel);padding-top:24px;border:3px solid var(--line)}
+#top{background:rgba(74,47,18,.88);color:#ffd86b}
+.btn{color:#3a2a00}
+.opt:nth-child(1){background:#c8553d}.opt:nth-child(2){background:#1f7a8c}.opt:nth-child(3){background:#6b8f3a}.opt:nth-child(4){background:#d9822b}
+.lv:nth-child(1) .orb{background:#e8b878}.lv:nth-child(2) .orb{background:#8fd8ff}.lv:nth-child(3) .orb{background:#c2cde3}.lv:nth-child(4) .orb{background:#b5e59c}
+.lv.done .orb{border-color:var(--ok)}.lv.done .lab::after{content:" ✅"}
+.lv.lock .orb{background:#8d86a8!important}
+.lv::before{border-left-color:#fff8}
+.lab{background:rgba(74,47,18,.8);color:#ffe9a8}
+.dc{position:absolute;top:70px;font-size:46px}
+.scene{position:relative;border-radius:22px;overflow:hidden;background:var(--c);height:140px;margin:8px 0 12px;border:4px solid rgba(74,47,18,.25)}
+.scene>svg{position:absolute;inset:0;width:100%;height:100%}
+.mas{position:absolute;inset-inline-end:12px;bottom:0;width:104px;height:104px}
+.hero{width:100%;max-width:420px;display:block;margin:0 auto}
+.lt{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;flex:none}
+main h1{background:linear-gradient(90deg,#c97a00,#1fa2a6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn.big{font-size:23px;padding:16px 36px;animation:pop 1.4s infinite}
+.cld{position:fixed;left:-90px;font-size:62px;opacity:.85;z-index:0;pointer-events:none;animation:drift 70s linear infinite}
+@keyframes drift{to{transform:translateX(130vw)}}
+@keyframes bob{50%{transform:translateY(-8px)}}
+@keyframes glow{50%{box-shadow:0 0 0 6px #fff,0 0 0 12px #ffd23f,0 0 34px 18px rgba(255,210,63,.85),0 14px 0 8px rgba(0,0,0,.22)}}
+.path{display:block;position:relative;height:1020px;padding:0}
+.road{position:absolute;inset:0;width:100%;height:100%}
+.r1{fill:none;stroke:var(--pyr);stroke-width:46;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.r2{fill:none;stroke:#fff;stroke-width:4;stroke-dasharray:12 14;vector-effect:non-scaling-stroke;opacity:.9}
+.flag{position:absolute;transform:translate(-50%,-50%);font-size:42px}
+.lv{position:absolute;transform:translate(-50%,-50%);padding:0;width:170px}
+.lv::before{display:none}
+.orb{position:relative;width:124px;height:124px;border:0;padding:10px;border-radius:50%;animation:none;box-shadow:0 0 0 6px #fff,0 0 0 12px #e8a900,0 14px 0 8px rgba(0,0,0,.22)}
+.lv.cur .orb{animation:glow 1.5s infinite}
+.lv.done .orb{box-shadow:0 0 0 6px #fff,0 0 0 12px var(--ok),0 14px 0 8px rgba(0,0,0,.22)}
+.orb i{font-style:normal}
+.num{position:absolute;top:-10px;inset-inline-start:-10px;width:38px;height:38px;border-radius:50%;background:#e8a900;color:#3a2a00;font-weight:900;font-size:20px;display:flex;align-items:center;justify-content:center;border:3px solid #fff}
+.chk{position:absolute;bottom:-8px;inset-inline-end:-8px;font-size:28px}
+.lk{position:absolute;inset:0;border-radius:50%;background:rgba(40,30,70,.55);display:flex;align-items:center;justify-content:center;font-size:46px}
+.lab{margin-top:22px;background:linear-gradient(#a66a2b,#7b4a1c);color:#ffe9a8;border-radius:12px;padding:5px 10px;font-weight:900;font-size:14px;border:2px solid #ffd86b;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.lock .st::after,.lv.done .lab::after{content:none}
+.st{font-size:22px;margin-top:4px}
+.go{display:inline-block;margin-top:6px;background:#2f9e5a;color:#fff;border-radius:14px;padding:3px 16px;font-weight:900;animation:pop 1s infinite}
+.dc{position:absolute;top:30px;font-size:40px}
+.scene{height:170px}
+.mas{width:122px;height:122px;animation:bob 2.2s ease-in-out infinite}
+#qq{background:rgba(232,169,0,.13);border:3px dashed var(--y);border-radius:20px;padding:14px;margin:6px 0 8px}
+.bar{height:20px;border:3px solid #fff;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.bar i{background:repeating-linear-gradient(45deg,#ffd23f 0 12px,#ffb300 12px 24px)}
+.opt{box-shadow:inset 0 3px 0 rgba(255,255,255,.35);transition:transform .1s}
+.opt:hover{transform:translateY(-2px)}
+.medal{width:96px;height:96px;border-radius:50%;margin:-52px auto 8px;position:relative;z-index:2;background:radial-gradient(#fff3b0,#e8a900);border:6px solid #fff;box-shadow:0 6px 0 rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-size:48px;animation:pop 1.2s infinite}
+.bdg{width:130px;margin:-74px auto 8px;position:relative;z-index:2;animation:pop 1.2s infinite}.bdg b{display:block;background:linear-gradient(#a66a2b,#7b4a1c);color:#ffe9a8;border-radius:10px;padding:2px 8px;font-size:13px;border:2px solid #ffd86b;margin-top:-6px;position:relative}
+.sh{width:23%;text-align:center;font-weight:900;font-size:12px;color:var(--ink)}.sh svg{width:100%;max-width:70px}.sh small{display:block}.off{filter:grayscale(1);opacity:.45}
+.pod{display:flex;justify-content:center;align-items:flex-end;gap:8px;margin:12px 0}.pd{flex:1;text-align:center;font-weight:900}.pd b{display:block;font-size:15px;word-break:break-word}.pd small{display:block;color:var(--mut);font-size:12px}
+.bx{margin-top:6px;border-radius:14px 14px 0 0;display:flex;justify-content:center;padding-top:8px;font-size:34px;background:linear-gradient(#ffd23f,#e8a900)}.p0 .bx{height:120px}.p1 .bx{height:90px;background:linear-gradient(#e5e7eb,#9ca3af)}.p2 .bx{height:66px;background:linear-gradient(#e0a470,#a66a2b)}
+.qi{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:var(--panel);border:3px solid var(--y);font-size:32px;margin-inline-end:10px;vertical-align:middle}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px 0}.chips span{background:var(--line);border-radius:14px;padding:4px 12px;font-weight:900;font-size:14px;color:var(--ink)}
+</style>
+</head>
+<body>
+<div id="fx"></div>
+<svg id="bg" viewBox="0 0 400 140" preserveAspectRatio="xMidYMax slice"><circle cx="340" cy="30" r="0" fill="none"/><path d="M0 140V100Q100 80 200 100T400 90V140Z" fill="var(--dune)"/><path d="M70 110L130 40L190 110Z" fill="var(--pyr)"/><path d="M130 40L190 110H150Z" fill="var(--pyr2)"/><path d="M180 112L225 62L270 112Z" fill="var(--pyr)"/><path d="M225 62L270 112H245Z" fill="var(--pyr2)"/><path d="M0 140V118Q120 105 240 120T400 112V140Z" fill="var(--dune)" opacity=".9"/></svg>
+<span class="cld" style="top:5vh">☁️</span><span class="cld" style="top:16vh;animation-delay:-30s;font-size:46px">☁️</span><span class="cld" style="top:27vh;animation-delay:-55s">☁️</span>
+<main>
+<div id="top" class="np hide"><span id="pn"></span><span>🪙 <span id="coins">0</span></span><button class="btn" style="padding:4px 12px;font-size:13px" onclick="lb()">🏆 عرض لوحة المتصدرين</button></div>
+<section id="s-welcome" class="panel">
+  <svg class="hero" viewBox="0 0 360 130"><rect width="360" height="130" rx="22" fill="#8fdde0"/><circle cx="300" cy="32" r="20" fill="#ffd23f"/><path d="M0 130V100Q90 85 180 100T360 95V130Z" fill="#e6bf73"/><path d="M60 108L130 28L200 108Z" fill="#d49a3a"/><path d="M130 28L200 108H160Z" fill="#b57d24"/><path d="M190 110L240 58L290 110Z" fill="#d9a441"/><path d="M240 58L290 110H262Z" fill="#b57d24"/><path d="M0 130V112Q60 118 120 112T240 116T360 110V130Z" fill="#1fa2a6"/><text x="30" y="92" font-size="34">🌴</text><text x="300" y="104" font-size="30">🐫</text></svg>
+  <div id="art-w"></div>
+  <div class="chips"><span>⛏️ المعادن</span><span>⚡ الطاقة</span><span>🏭 الصناعة</span><span>🌿 الترشيد</span></div>
+  <h1>رحلة مستكشف الموارد في مصر</h1>
+  <p>الدراسات الاجتماعية – الصف الخامس الابتدائي | أ/ أمينة</p>
+  <p>في كل مستوى ١٠ أسئلة، وكل إجابة صح بـ ٥ نقاط، وعندك ٦ قلوب ❤️. اجمع ٢٥ نقطة على الأقل عشان تفتح المستوى التالي، وحاول تاخد ٣ نجوم ⭐</p>
+  <input id="name" placeholder="اكتب اسم البطل"><br>
+  <button class="btn big" onclick="start()">ابدأ اللعب 🎮</button> <button class="btn g" onclick="lb()">🏆 عرض لوحة المتصدرين</button>
+  <div id="wlb" style="margin-top:14px;font-weight:900"></div>
+</section>
+<section id="s-map" class="hide">
+  <div class="panel"><h2>خريطة المغامرة 🗺️</h2><p>اعبر المستويات بالترتيب</p></div>
+  <div class="panel row" id="shelf" style="justify-content:space-around;padding-bottom:12px"></div>
+  <div class="path" id="nodes"></div>
+</section>
+<section id="s-quiz" class="panel hide">
+  <div class="row"><b id="hp"></b><b id="qt"></b><b>⭐ <span id="sc">0</span></b></div>
+  <div class="bar"><i id="pb"></i></div>
+  <b id="stk" style="color:#ff8a3d"></b>
+  <div id="art-q"></div>
+  <h3 id="qq"></h3>
+  <div class="opts" id="opts"></div>
+  <div id="fb" class="fb hide"></div>
+  <div class="row" style="margin-top:14px">
+    <button class="btn g" onclick="toMap()">🗺️</button>
+    <button class="btn hide" id="nx" onclick="next()">التالي ⬅</button>
+  </div>
+</section>
+<section id="s-res" class="panel hide">
+  <div id="art-r"></div>
+  <h2 id="rt"></h2><div id="rst" style="font-size:40px"></div><p id="rs"></p>
+  <div class="row" style="justify-content:center;margin-top:12px">
+    <button class="btn g" onclick="begin(L)">🔄 العب تاني</button>
+    <button class="btn" id="rn" onclick="after()"></button>
+  </div>
+</section>
+<section id="s-lb" class="panel hide"><h2>🏆 لوحة المتصدرين</h2><p>أعلى ١٠ أبطال على هذا الجهاز</p><div class="pod" id="pod"></div><table><tbody id="lbt"></tbody></table><div class="row" style="margin-top:12px"><button class="btn g" id="lbc" onclick="lbClear()">🗑️ مسح</button><button class="btn" onclick="lbBack()">رجوع ⬅</button></div></section>
+<section id="s-cert" class="hide">
+  <div class="panel" style="border:6px solid var(--y)">
+    <div id="art-c"></div>
+    <h2>🏆 شهادة البطل 🏆</h2>
+    <p>تمنح المعلمة أ/ أمينة هذه الشهادة للبطل</p>
+    <h1 id="cn"></h1>
+    <table><tbody id="ct"></tbody></table>
+    <h3>المجموع: <span id="ctot"></span> / 200 &nbsp; 🪙 <span id="ccoin"></span></h3>
+  </div>
+  <div class="row np" style="justify-content:center">
+    <button class="btn g" onclick="print()">🖨️ طباعة</button><button class="btn g" onclick="lb()">🏆 عرض لوحة المتصدرين</button>
+    <button class="btn" onclick="show('welcome')">من الأول</button>
+  </div>
+</section>
+</main>
+
+<script>
+const T=["صواب","خطأ"];
+const D=[
+{t:"مستكشف المعادن",b:"خبير التعدين",d:"أماكن المعادن في مصر",q:[
+["يُستخرج معدن الفوسفات في مصر من منطقة ..... بالصحراء الغربية.",["الواحات البحرية","أبو طرطور","أم بجمة","جبل المغارة"],1,"الفوسفات من أبو طرطور، أما الحديد فمن الواحات البحرية."],
+["يُستخرج معدن الحديد في مصر من منطقة ..... بالصحراء الغربية.",["أم بجمة","الواحات البحرية","منجم السكري","أبو طرطور"],1,"الحديد يُستخرج من الواحات البحرية."],
+["يُستخرج معدن الذهب من منجم السكري بالصحراء .....",["الغربية","الشرقية","الشمالية","الجنوبية"],1,"منجم السكري في الصحراء الشرقية."],
+["يُستخرج معدن المنجنيز من أم بجمة بشبه جزيرة .....",["سيناء","الصحراء الغربية","الصحراء الشرقية","الدلتا"],0,"أم بجمة في سيناء."],
+["يُستخرج معدن النحاس في مصر من محافظة .....",["أسوان","البحر الأحمر","الجيزة","شمال سيناء"],1,"النحاس يُستخرج من البحر الأحمر وسيناء."],
+["عملية استخراج المعادن ومصادر الطاقة من باطن الأرض اسمها .....",["الزراعة","التعدين","التجارة","السياحة"],1,"هذه العملية اسمها التعدين."],
+["التعدين هو استخراج المعادن ومصادر الطاقة من باطن الأرض أو بالقرب من سطحها.",T,0,"صواب، هذا تعريف التعدين."],
+["يُستخرج الفحم في مصر من منطقة جبل المغارة بشمال سيناء.",T,0,"صواب."],
+["يُعد حقل «ظهر» في البحر المتوسط من أشهر حقول البترول في مصر.",T,1,"خطأ، حقل ظهر حقل للغاز الطبيعي."],
+["يُستخرج معدن الفوسفات من الواحات البحرية بالصحراء الغربية.",T,1,"خطأ، الفوسفات من أبو طرطور."]]},
+{t:"صياد الطاقة",b:"صديق البيئة",d:"الطاقة المتجددة وغير المتجددة",q:[
+["محطة رياح جبل الزيت في محافظة .....",["أسوان","البحر الأحمر","الجيزة","شمال سيناء"],1,"جبل الزيت في البحر الأحمر."],
+["أي مما يلي من مصادر الطاقة المتجددة الصديقة للبيئة؟",["الفحم","البترول","الرياح","الغاز الطبيعي"],2,"الرياح متجددة ونظيفة."],
+["أكبر محطة طاقة شمسية في مصر بقرية بنبان في محافظة .....",["الجيزة","أسوان","البحر الأحمر","القاهرة"],1,"بنبان في أسوان."],
+["أي مصادر الطاقة ينفد مع الاستخدام ويلوث البيئة؟",["الشمس","البترول","الرياح","المياه"],1,"البترول غير متجدد وملوث."],
+["محطة الكريمات للطاقة الشمسية في محافظة .....",["الجيزة","أسوان","الإسكندرية","قنا"],0,"الكريمات في الجيزة."],
+["مصادر الطاقة المتجددة نظيفة لا تنفد ولا تلوث البيئة.",T,0,"صواب."],
+["مصادر الطاقة غير المتجددة صديقة للبيئة وغير ملوثة.",T,1,"خطأ، فهي ملوثة وتنفد."],
+["تُولَّد الطاقة الكهرومائية من السد العالي وخزان أسوان.",T,0,"صواب."],
+["البترول والغاز الطبيعي من مصادر الطاقة المتجددة.",T,1,"خطأ، فهما غير متجددين."],
+["الرياح والشمس من مصادر الطاقة المتجددة النظيفة.",T,0,"صواب."]]},
+{t:"بطل الطاقة النظيفة",b:"حارس الموارد",d:"أهمية المعادن والطاقة",q:[
+["يدخل معدن الفوسفات في صناعة .....",["أسلاك الكهرباء","الأسمدة الكيماوية","الحلي","السيارات"],1,"الفوسفات للأسمدة."],
+["يُستخدم المنجنيز في صناعة الصلب و .....",["السبائك","المبيدات","الدهانات","الحلي"],2,"المنجنيز للصلب والدهانات."],
+["يدخل النحاس في صناعة .....",["أسلاك الكهرباء والسبائك","الأسمدة والمبيدات","الدهانات والصلب","الحلي والمجوهرات"],0,"النحاس لأسلاك الكهرباء."],
+["يدخل الذهب في صناعة الحلي وبعض .....",["السيارات","الأدوية وعلاج بعض الأمراض","الأسمدة","الطائرات"],1,"الذهب يدخل في بعض الأدوية."],
+["تسهم الثروة المعدنية ومصادر الطاقة في توفير ..... للشباب.",["وسائل ترفيه","فرص عمل","مباني مدرسية","وسائل نقل"],1,"توفر فرص عمل."],
+["يُقصد بالتعدين استخراج المعادن ومصادر الطاقة من باطن الأرض أو بالقرب من سطحها.",T,0,"صواب."],
+["يدخل النحاس في صناعة الأسمدة الكيماوية والمبيدات.",T,1,"خطأ، النحاس لأسلاك الكهرباء."],
+["يُستخدم الحديد في صناعة الآلات والحديد والصلب.",T,0,"صواب."],
+["ليس للمعادن ومصادر الطاقة أي أهمية اقتصادية في الدخل القومي.",T,1,"خطأ، لها أهمية كبرى."],
+["استغل المصريون القدماء طاقة الرياح لتسيير المراكب الشراعية.",T,0,"صواب."]]},
+{t:"مهندس الاستدامة",b:"وسام المستكشف الذهبي",d:"حماية الموارد وترشيدها",q:[
+["من جهود الدولة للحفاظ على الثروة المعدنية ومصادر الطاقة .....",["زيادة الاستهلاك","سن القوانين لحمايتها","إهدار الموارد","منع الاستثمار"],1,"الدولة تسن القوانين لحمايتها."],
+["يلتزم المواطنون بالحفاظ على الطاقة من خلال ..... استهلاكها.",["زيادة","ترشيد","إهدار","مضاعفة"],1,"الترشيد يعني عدم الإسراف."],
+["من طرق الحفاظ على مصادر الطاقة غير المتجددة التوسع في استخدام الطاقة .....",["الحفرية","المتجددة","الملوثة","المكلفة"],1,"الطاقة المتجددة تقلل استهلاك الحفرية."],
+["تشجع الدولة الاستثمار المحلي والعالمي في مجال البحث عن .....",["البترول فقط","المعادن ومصادر الطاقة المتجددة","الفحم","التلوث"],1,"المعادن ومصادر الطاقة المتجددة."],
+["التصرف السليم عند مغادرة الغرفة هو ..... الأنوار لتوفير الطاقة.",["إبقاء","إطفاء","إهمال","كسر"],1,"إطفاء الأنوار يوفر الكهرباء."],
+["تعمل الدولة على البحث عن بدائل للمعادن ومصادر الطاقة للحفاظ عليها.",T,0,"صواب."],
+["يقتصر دور ترشيد استهلاك الطاقة على الحكومة والدولة فقط دون المواطنين.",T,1,"خطأ، مسؤولية مشتركة بين الدولة والمواطن."],
+["تشجع الدولة الاستثمار المستدام في قطاع التعدين والطاقة المتجددة لحماية البيئة.",T,0,"صواب."],
+["إضاءة المصابيح في الأماكن غير الفارغة أو عدم الحاجة إليها يعتبر ترشيداً صحيحاً للطاقة.",T,1,"خطأ، إهدار للطاقة."],
+["تساهم جهود الدولة والمواطن معاً في تحقيق التنمية المستدامة في مصر.",T,0,"صواب."]]}
+];
+const P=5,PASS=25;
+let name="",L=0,i=0,sc=0,best=[null,null,null,null],done=false;
+const $=id=>document.getElementById(id);
+const face=(c)=>`<circle cx="60" cy="62" r="26" fill="#ffd9a8" stroke="#3b2a14" stroke-width="3"/><circle cx="51" cy="60" r="3.5" fill="#3b2a14"/><circle cx="69" cy="60" r="3.5" fill="#3b2a14"/><path d="${c}" stroke="#3b2a14" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+const smile="M50 72 Q60 82 70 72",sad="M50 76 Q60 68 70 76";
+const A=[
+m=>`<svg viewBox="0 0 120 120"><path d="M0 120 L40 50 L70 90 L95 60 L120 120Z" fill="#a8835a" stroke="#3b2a14" stroke-width="3"/>${face(m)}<path d="M32 52 Q60 22 88 52Z" fill="#facc15" stroke="#3b2a14" stroke-width="3"/><rect x="54" y="36" width="12" height="8" rx="3" fill="#fff7c2"/><path d="M92 100 L112 70" stroke="#6b4423" stroke-width="5"/><path d="M100 66 Q116 62 118 78" stroke="#64748b" stroke-width="5" fill="none"/></svg>`,
+m=>`<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="34" fill="#fde047" stroke="#f59e0b" stroke-width="4"/>${face(m).replace("#ffd9a8","#fde047")}<g stroke="#f59e0b" stroke-width="5" stroke-linecap="round"><path d="M60 8v10M60 102v10M8 60h10M102 60h10M23 23l7 7M90 90l7 7M97 23l-7 7M30 90l-7 7"/></g><path d="M100 118 L100 80" stroke="#64748b" stroke-width="4"/><path d="M100 80 L100 56M100 80 L121 92M100 80 L79 92" stroke="#64748b" stroke-width="5" stroke-linecap="round"/></svg>`,
+m=>`<svg viewBox="0 0 120 120"><rect x="14" y="56" width="92" height="56" fill="#cbd5e1" stroke="#3b2a14" stroke-width="3"/><rect x="24" y="22" width="14" height="36" fill="#94a3b8" stroke="#3b2a14" stroke-width="3"/><rect x="48" y="30" width="14" height="28" fill="#94a3b8" stroke="#3b2a14" stroke-width="3"/><circle cx="31" cy="12" r="7" fill="#e2e8f0"/><path d="M14 56 L40 38 L66 56 L92 38 L106 56Z" fill="#f87171" stroke="#3b2a14" stroke-width="3"/><circle cx="46" cy="86" r="9" fill="#fff" stroke="#3b2a14" stroke-width="3"/><circle cx="46" cy="86" r="3" fill="#3b2a14"/><circle cx="76" cy="86" r="9" fill="#fff" stroke="#3b2a14" stroke-width="3"/><circle cx="76" cy="86" r="3" fill="#3b2a14"/><path d="${m.replace(/60/g,"61").replace(/50/g,"51")}" transform="translate(0 20)" stroke="#3b2a14" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+m=>`<svg viewBox="0 0 120 120"><path d="M34 70 L12 112 L108 112 L86 70Z" fill="#ef4444" stroke="#3b2a14" stroke-width="3"/>${face(m)}<path d="M34 56 Q60 24 86 56Q60 46 34 56Z" fill="#16a34a" stroke="#3b2a14" stroke-width="3"/><path d="M98 108 V84" stroke="#15803d" stroke-width="4"/><path d="M98 90 Q84 86 84 74 Q98 76 98 90ZM98 90 Q112 86 112 74 Q98 76 98 90Z" fill="#4ade80" stroke="#15803d" stroke-width="2"/></svg>`
+];
+const art=(l,m)=>A[l](m||smile);
+const QI=[[/التنمية/,"🌱"],[/الأنوار|المصابيح|إضاءة/,"💡"],[/بدائل/,"♻️"],[/الاستثمار/,"📈"],[/فرص عمل|الشباب/,"👷"],[/المصريون القدماء/,"⛵"],[/فوسفات/,"🌾"],[/حديد/,"🏗️"],[/ذهب/,"💍"],[/منجنيز/,"⚙️"],[/نحاس/,"🔌"],[/فحم/,"🪨"],[/ظهر|الغاز/,"🔥"],[/بترول/,"🛢️"],[/كهرومائية|السد/,"💧"],[/رياح/,"🌬️"],[/شمس|الكريمات|بنبان/,"☀️"],[/تعدين/,"⛏️"],[/ترشيد|استهلاك|المواطن/,"💡"],[/الدولة|القوانين/,"🏛️"],[/المتجددة|الطاقة/,"⚡"],[/المعادن|المعدنية/,"💎"]];
+const qIcon=t=>{const r=QI.find(x=>x[0].test(t));return r?r[1]:"🇪🇬"};
+const IC=["⛏️","⚡","🏭","🌿"],BGC=["#f0c987","#8fd8ff","#c9d3e6","#c6efb0"];
+const tx=(x,y,t,c,s)=>`<text x="${x}" y="${y}" font-size="${s||10}" font-weight="900" fill="${c||"#3b2a14"}" text-anchor="middle" font-family="Cairo,sans-serif">${t}</text>`;
+const items=(arr,x0,dx,y)=>arr.map((a,i)=>`<text x="${x0+i*dx}" y="${y}" font-size="26" text-anchor="middle">${a[0]}</text>`+tx(x0+i*dx,y+16,a[1],"#fff",11)).join("");
+const ore=[["#ffd23f","ذهب"],["#e07a3f","نحاس"],["#9a4b3b","حديد"],["#f1e6c8","فوسفات"],["#6b4c8a","منجنيز"]];
+const SC=[
+`<path d="M120 140L170 60L215 100L265 40L320 95L360 70V140Z" fill="#8b5a3c"/><path d="M265 40L277 58L253 58Z" fill="#fff" opacity=".7"/><rect x="176" y="92" width="30" height="34" rx="8" fill="#2b1a0e"/><path d="M169 94L191 72L213 94" fill="none" stroke="#c98a4b" stroke-width="6"/><rect y="118" width="360" height="22" fill="#c9965a"/>`+ore.map((o,i)=>`<circle cx="${150+i*50}" cy="112" r="9" fill="${o[0]}" stroke="#3b2a14" stroke-width="2"/>`+tx(150+i*50,134,o[1])).join(""),
+`<rect y="118" width="360" height="22" fill="#d9c48a"/><path d="M170 118V62" stroke="#fff" stroke-width="5"/><path d="M170 62V36M170 62L192 74M170 62L148 74" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M205 118L215 96H257L247 118Z" fill="#2563eb" stroke="#fff" stroke-width="3"/><path d="M296 118L311 62L326 118M302 100H320M305 84H317" stroke="#3b2a14" stroke-width="4" fill="none"/><circle cx="338" cy="68" r="8" fill="#555" opacity=".6"/><circle cx="348" cy="52" r="10" fill="#555" opacity=".5"/>`+tx(170,134,"رياح","#1b6b3a")+tx(231,134,"شمس","#1b6b3a")+tx(311,134,"بترول","#9a2a2a"),
+`<rect x="128" y="64" width="62" height="56" fill="#7b8aa5"/><rect x="138" y="36" width="12" height="30" fill="#5b6a85"/><circle cx="144" cy="26" r="8" fill="#fff" opacity=".8"/><rect y="118" width="360" height="6" fill="#475569"/><rect y="124" width="360" height="16" fill="#64748b"/>`+items([["🌾","أسمدة"],["🔌","أسلاك"],["💍","حلي"],["💊","أدوية"]],225,38,110),
+`<path d="M0 140V108Q90 84 180 106T360 98V140Z" fill="#6cc04a"/><circle cx="140" cy="64" r="26" fill="#3fb56a"/><rect x="136" y="84" width="8" height="30" fill="#8b5a3c"/><rect y="124" width="360" height="16" fill="#4fa63a"/>`+items([["💡","ترشيد"],["📜","قوانين"],["♻️","بدائل"],["🌱","استدامة"]],215,42,108)
+];
+const BC=["#c98a4b","#4ade80","#3b82f6","#ffd23f"];
+const BI=[
+`<path d="M32 72L66 36" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/><path d="M48 28Q72 30 78 52" stroke="#64748b" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M28 80L40 68L48 80L38 92Z" fill="#ffd23f" stroke="#a66a00" stroke-width="2"/>`,
+`<path d="M30 72Q28 38 66 32Q70 68 36 74Z" fill="#4ade80" stroke="#15803d" stroke-width="3"/><path d="M34 70L58 44" stroke="#15803d" stroke-width="3"/><circle cx="70" cy="36" r="10" fill="#ffd23f" stroke="#e8a900" stroke-width="2"/>`,
+`<path d="M50 26L74 36V56Q74 76 50 90Q26 76 26 56V36Z" fill="#93c5fd" stroke="#1e3a8a" stroke-width="3"/><circle cx="50" cy="56" r="11" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="5 3"/><circle cx="50" cy="56" r="4" fill="#fff"/>`,
+`<path d="M34 30H66V50Q66 66 50 68Q34 66 34 50Z" fill="#ffd23f" stroke="#a66a00" stroke-width="3"/><path d="M34 36H24Q24 54 36 56M66 36H76Q76 54 64 56" fill="none" stroke="#a66a00" stroke-width="4"/><rect x="44" y="68" width="12" height="9" fill="#e8a900"/><rect x="36" y="77" width="28" height="8" rx="3" fill="#a66a00"/><path d="M50 36L53 44L61 44L55 49L57 57L50 52L43 57L45 49L39 44L47 44Z" fill="#fff7c2"/>`
+];
+const badge=l=>`<svg viewBox="0 0 100 120"><path d="M30 80L18 118L36 108L46 118L50 84Z" fill="#e11d48"/><path d="M70 80L82 118L64 108L54 118L50 84Z" fill="#1d4ed8"/><circle cx="50" cy="52" r="46" fill="${BC[l]}" stroke="#fff" stroke-width="5"/><circle cx="50" cy="52" r="36" fill="#fff8e1" stroke="rgba(0,0,0,.18)" stroke-width="3"/>${BI[l]}</svg>`;
+function scene(l,m){return `<div class="scene" style="--c:${BGC[l]}"><svg viewBox="0 0 360 140" preserveAspectRatio="xMidYMax slice">${SC[l]}</svg><div class="mas">${art(l,m||smile)}</div></div>`}
+$("art-w").innerHTML=`<div style="display:flex;justify-content:center;gap:4px">${[0,1,2,3].map(k=>`<div style="width:22%">${art(k)}</div>`).join("")}</div>`;
+let hp=6,streak=0,coins=0;
+function show(s){["welcome","map","quiz","res","cert","lb"].forEach(x=>$("s-"+x).classList.toggle("hide",x!==s));$("top").classList.toggle("hide",s==="welcome"||(s==="lb"&&!name));if(s==="welcome")wlb();scrollTo(0,0)}
+function snd(f,d){try{const c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.type="square";o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}catch(e){}}
+function confetti(){const e=["🎉","⭐","🪙","✨"];for(let k=0;k<26;k++){const s=document.createElement("span");s.textContent=e[k%4];s.style.left=Math.random()*95+"%";s.style.animationDelay=Math.random()*.8+"s";$("fx").appendChild(s);setTimeout(()=>s.remove(),3500)}}
+function start(){const v=$("name").value.trim();if(!v){$("name").placeholder="⚠️ اكتب اسمك الأول!";$("name").focus();return}name=v;best=[null,null,null,null];coins=0;toMap()}
+const stars=s=>s>=45?3:s>=35?2:s>=25?1:0;
+const starTxt=n=>"⭐".repeat(n)+"☆".repeat(3-n);
+function open(k){return k==0||(best[k-1]!==null&&best[k-1]>=PASS)}
+function toMap(){
+  $("pn").textContent="🎮 "+name;$("coins").textContent=coins;
+  const X=[28,72,30,70],Y=[12,37,62,87],dc=["💎","☀️","🔌","🌳"];
+  $("nodes").innerHTML=`<svg class="road" viewBox="0 0 100 100" preserveAspectRatio="none"><path class="r1" d="M28 12C28 25 72 24 72 37S30 50 30 62S70 75 70 87"/><path class="r2" d="M28 12C28 25 72 24 72 37S30 50 30 62S70 75 70 87"/></svg><div class="flag" style="left:28%;top:3%">🚩</div><div class="flag" style="left:70%;top:97%">🏁</div>`+D.map((d,k)=>{const o=open(k),ok=best[k]!==null&&best[k]>=PASS,cur=o&&!ok;
+    return `<div class="lv ${ok?"done":cur?"cur":"lock"}" style="left:${X[k]}%;top:${Y[k]}%"><span class="dc" style="${k%2?"right":"left"}:-62px">${dc[k]}</span><button class="orb" onclick="${o?`begin(${k})`:"snd(150,.2)"}">${art(k)}<i class="num">${k+1}</i>${ok?'<i class="chk">✅</i>':""}${o?"":'<i class="lk">🔒</i>'}</button><div class="lab">${IC[k]} ${d.t}</div><div class="st">${starTxt(best[k]===null?0:stars(best[k]))}</div>${cur?'<div class="go">ابدأ ▶</div>':""}</div>`}).join("");
+  $("shelf").innerHTML=D.map((d,k)=>`<div class="sh ${best[k]!==null&&best[k]>=PASS?"":"off"}">${badge(k)}<small>${d.b}</small></div>`).join("");show("map")}
+function begin(k){L=k;i=0;sc=0;hp=6;streak=0;show("quiz");render()}
+function render(){
+  const q=D[L].q[i];
+  $("hp").textContent="❤️".repeat(hp)+"🖤".repeat(6-hp);
+  $("qt").textContent=`مستوى ${L+1} • ${i+1}/${D[L].q.length}`;
+  $("sc").textContent=sc;$("pb").style.width=(i+1)/D[L].q.length*100+"%";
+  $("stk").textContent=streak>=2?"🔥 سلسلة x"+streak:"";
+  $("art-q").innerHTML=`${scene(L)}`;
+  $("qq").innerHTML="";const ic=document.createElement("span");ic.className="qi";ic.textContent=qIcon(q[0]);$("qq").append(ic,q[0]);$("fb").className="fb hide";$("nx").classList.add("hide");
+  $("opts").innerHTML="";done=false;
+  q[1].forEach((o,k)=>{const b=document.createElement("button");b.className="opt";const lt=document.createElement("span");lt.className="lt";lt.textContent=q[1].length>2?["أ","ب","ج","د"][k]:(k?"✖":"✔");b.append(lt,o);b.onclick=()=>pick(k,b);$("opts").appendChild(b)})}
+function fl(t,e){const r=e.getBoundingClientRect(),s=document.createElement("div");s.className="fl";s.textContent=t;s.style.left=r.left+r.width/2-30+"px";s.style.top=r.top+"px";document.body.appendChild(s);setTimeout(()=>s.remove(),1000)}
+function pick(k,b){
+  if(done)return;done=true;
+  const q=D[L].q[i],bs=$("opts").children,f=$("fb");
+  [...bs].forEach(x=>x.classList.add("no"));
+  if(k===q[2]){sc+=P;streak++;const g=streak>=3?15:10;coins+=g;b.classList.remove("no");b.classList.add("ok");f.textContent="🎉 ممتاز! +"+g+" 🪙";fl("+"+P+" ⭐",b);snd(660,.15);setTimeout(()=>snd(880,.2),150);$("art-q").innerHTML=`${scene(L,smile)}`}
+  else{hp--;streak=0;bs[q[2]].classList.remove("no");bs[q[2]].classList.add("ok");f.textContent="💔 الإجابة الصحيحة: "+q[1][q[2]]+" — 💡 "+q[3];$("s-quiz").classList.remove("shake");void $("s-quiz").offsetWidth;$("s-quiz").classList.add("shake");snd(160,.35);$("art-q").innerHTML=`${scene(L,sad)}`}
+  $("hp").textContent="❤️".repeat(hp)+"🖤".repeat(6-hp);$("sc").textContent=sc;$("coins").textContent=coins;
+  f.className="fb";$("nx").classList.remove("hide")}
+function next(){i++;(hp<=0||i>=D[L].q.length)?finish():render()}
+function finish(){
+  const ok=hp>0&&sc>=PASS;if(best[L]===null||sc>best[L])best[L]=sc;saveLB();
+  $("art-r").innerHTML=`${scene(L,ok?smile:sad)}${ok?'<div class="bdg">'+badge(L)+'<b>'+D[L].b+'</b></div>':""}`;
+  $("rt").textContent=ok?"🎉 عبرت المستوى! شارة: "+D[L].b:hp<=0?"💔 خلصت القلوب! جرب تاني":"قربت! محتاج "+PASS+" نقطة";
+  $("rst").textContent=starTxt(ok?stars(sc):0);
+  $("rs").textContent=`نتيجتك: ${sc} / ${D[L].q.length*P}`;
+  $("rn").textContent=!ok?"🗺️ الخريطة":L<3?"المستوى التالي ⬅":"🏆 الشهادة";
+  $("coins").textContent=coins;if(ok){confetti();snd(523,.12);setTimeout(()=>snd(784,.25),130)}
+  show("res");window.lastOk=ok}
+function lbGet(){try{return JSON.parse(localStorage.getItem("lb7")||"[]")}catch(e){return[]}}
+function lbSet(a){try{localStorage.setItem("lb7",JSON.stringify(a))}catch(e){}}
+function saveLB(){const t=best.reduce((s,x)=>s+(x||0),0),a=lbGet(),e=a.find(x=>x.n===name);if(e){if(t>=e.t){e.t=t;e.c=Math.max(e.c,coins)}}else a.push({n:name,t:t,c:coins});lbSet(a)}
+function lb(){const a=lbGet().sort((x,y)=>y.t-x.t||y.c-x.c).slice(0,10),m=["🥇","🥈","🥉"],tb=$("lbt"),pod=$("pod");tb.innerHTML="";pod.innerHTML="";
+  if(!a.length){const tr=document.createElement("tr"),c=document.createElement("td");c.textContent="لسه مفيش أبطال، كوني أول واحدة! 🌟";tr.appendChild(c);tb.appendChild(tr)}
+  [1,0,2].forEach(i=>{const e=a[i];if(!e)return;const d=document.createElement("div"),n=document.createElement("b"),s=document.createElement("small"),x=document.createElement("div");d.className="pd p"+i;n.textContent=e.n;s.textContent=e.t+" / 200 • 🪙 "+e.c;x.className="bx";x.textContent=m[i];d.append(n,s,x);pod.appendChild(d)});
+  a.slice(3).forEach((e,k)=>{const tr=document.createElement("tr"),c1=document.createElement("td"),c2=document.createElement("td"),c3=document.createElement("td");c1.textContent=String(k+4);c2.textContent=e.n;c3.textContent=e.t+" / 200 • 🪙 "+e.c;if(e.n===name)tr.style.background="var(--line)";tr.append(c1,c2,c3);tb.appendChild(tr)});
+  show("lb")}
+function wlb(){const a=lbGet().sort((x,y)=>y.t-x.t||y.c-x.c).slice(0,3),b=$("wlb");b.innerHTML="";if(!a.length)return;const t=document.createElement("b");t.textContent="🏆 المتصدرون";b.appendChild(t);a.forEach((e,k)=>{const d=document.createElement("div");d.textContent=["🥇","🥈","🥉"][k]+" "+e.n+" — "+e.t+" / 200";b.appendChild(d)})}
+function lbBack(){name?toMap():show("welcome")}
+let cf=0;function lbClear(){if(!cf){cf=1;$("lbc").textContent="اضغطي تاني للتأكيد";return}cf=0;$("lbc").textContent="🗑️ مسح";lbSet([]);lb()}
+wlb();
+function after(){if(!window.lastOk)toMap();else if(L<3)begin(L+1);else cert()}
+function cert(){
+  $("cn").textContent=name;$("ccoin").textContent=coins;$("art-c").innerHTML=`<div style="display:flex;justify-content:center;gap:6px">${[0,1,2,3].map(k=>`<div class="sh ${(best[k]||0)>=PASS?"":"off"}">${badge(k)}<small>${D[k].b}</small></div>`).join("")}</div>`;
+  let t=0;$("ct").innerHTML=D.map((d,k)=>{const s=best[k]||0;t+=s;return `<tr><td>${IC[k]} ${d.t}</td><td>${starTxt(stars(s))}</td><td>${s} / 50</td></tr>`}).join("");
+  $("ctot").textContent=t;show("cert");confetti()}
+</script>
+</body>
+</html>
